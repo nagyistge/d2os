@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<environment>
+	<master>
+		<node>
+			<name>master</name>
+			<address>10.0.0.2</address>
+			<workspace>/home/hadoop/rcor/CloudOS/data/master/</workspace>
+			<ssh>
+				<user>hadoop</user>
+			</ssh>
+		</node>
+	</master>
+   <slave>
+		<node>
+			<name>slave1</name>
+			<address>10.0.0.3</address>
+			<workspace>/home/hadoop/rcor/CloudOS/data/slave1/</workspace>
+                        <ssh>
+                                <user>hadoop</user>
+                        </ssh>
+
+		</node>
+		<node>
+                        <name>slave2</name>
+                        <address>10.0.0.4</address>
+                        <workspace>/home/hadoop/rcor/CloudOS/data/slave2/</workspace>
+                        <ssh>
+                                <user>hadoop</user>
+                        </ssh>
+
+                </node>
+		<node>
+                        <name>slave3</name>
+                        <address>10.0.0.6</address>
+                        <workspace>/home/hadoop/rcor/CloudOS/data/slave3/</workspace>
+                        <ssh>
+                                <user>hadoop</user>
+                        </ssh>
+
+                </node>
+                <node>
+                        <name>slave4</name>
+                        <address>10.0.0.7</address>
+                        <workspace>/home/hadoop/rcor/CloudOS/data/slave4/</workspace>
+                        <ssh>
+                                <user>hadoop</user>
+                        </ssh>
+
+                </node>
+   </slave>
+</environment>

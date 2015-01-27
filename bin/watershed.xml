@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<module>
+	<name>watershed</name>
+	<port>8000</port>
+	<executor type="master">
+		<class>watershed.core.Master</class>
+		<file>watershed.jar</file>
+	</executor>
+	<executor type="slave">
+		<class>watershed.core.Slave</class>
+		<file>watershed.jar</file>
+	</executor>
+</module>

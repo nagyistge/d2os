@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<filter name="mapper" file="samples.jar" class="sample.watershed.Mapper" instances="1">
+	<input>
+		<channel name="reader">
+			<deliver class="sample.watershed.LocalLineDeliver" file="samples.jar">
+				<attr name="file" value="/home/hadoop/rcor/file13.txt"/>
+			</deliver>
+		</channel>
+	</input>
+	<output>
+		<channel name="net">
+		</channel>
+	</output>
+</filter>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<module>
+	<name>dpm</name>
+	<port>8000</port>
+	<executor type="master">
+		<class>dpm.Master</class>
+		<file>dpm.jar</file>
+	</executor>
+	<executor type="slave">
+		<class>dpm.Slave</class>
+		<file>dpm.jar</file>
+	</executor>
+</module>
