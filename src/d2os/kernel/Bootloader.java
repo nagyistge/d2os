@@ -1,4 +1,3 @@
-
 package d2os.kernel;
 
 import java.util.Set;
@@ -44,10 +43,7 @@ import d2os.kernel.info.NodeInfo;
 import d2os.net.NetUtil;
 import d2os.util.Logger;
 
-/**
- * Echoes back any received data from a client.
- */
-public final class SystemCallServer {
+public final class Bootloader {
 
 	static final boolean SSL = System.getProperty("ssl") != null;
 
@@ -155,8 +151,12 @@ public final class SystemCallServer {
 		Logger.info("Starting ModuleController");
 		final ModuleController moduleController = new ModuleController(zk);
 		moduleController.setSystemCallInterface(sysCall);
+		final ResourceManager resourceManager = new ResourceManager(env, zk);
+		resourceManager.setSystemCallInterface(sysCall);
+
 		final Set<ModuleExecutor> moduleExecutors = new HashSet<ModuleExecutor>();
-		moduleExecutors.add(moduleController);		
+		moduleExecutors.add(moduleController);
+		moduleExecutors.add(resourceManager);
 		System.out.println("SystemCallServer: "+localNodeName+":"+config.getString("master.port"));
 		runServer(config, moduleExecutors);
 	}
