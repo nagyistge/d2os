@@ -43,9 +43,27 @@ import d2os.kernel.info.NodeInfo;
 import d2os.net.NetUtil;
 import d2os.util.Logger;
 
-public final class Bootloader {
+public final class NodeManager extends ModuleExecutor {
 
 	static final boolean SSL = System.getProperty("ssl") != null;
+
+	private ZkClient zk;
+
+
+	NodeManager(ZkClient zk){
+		this.zk = zk;
+
+		addSystemCallHandler("launch", new SystemCallHandler(){
+			public SystemCallReply handle(SystemCallContext ctx, SystemCallArguments args){
+				return ctx.reply(null);
+			}
+		});
+		addSystemCallHandler("kill", new SystemCallHandler(){
+			public SystemCallReply handle(SystemCallContext ctx, SystemCallArguments args){
+				return ctx.reply(null);
+			}
+		});
+	}
 
 	public static void runServer(Configuration config, final Set<ModuleExecutor> modules) throws Exception {
 		// Configure SSL.
@@ -131,32 +149,21 @@ public final class Bootloader {
 		}
 
 		Logger.info("Starting ZooKeeper client");
-		ZkClient zk = new ZkClient("localhost");
 		Logger.info("Updating ZooKeeper");
-		zk.deleteRecursive("/tmp");
-		zk.deleteRecursive("/kernel");
-		zk.deleteRecursive("/modules");
-		zk.createPersistent("/modules", "");
-		zk.createPersistent("/tmp", "");
-		zk.createPersistent("/kernel", ""); //TODO set that this host is the one that is running the kernelCore
-		zk.createPersistent("/kernel/addr", localNodeInfo.getAddress());
-		zk.createPersistent("/kernel/port", config.getString("master.port"));
 
 		String []zkServers = config.getStringArray("zk.servers");
+		ZkClient zk = new ZkClient(zkServers[0]);
 		Logger.info("Creating System Call Interface");
 		SystemCallInterface sysCall = new SystemCallInterface(zkServers);
 
 		String []modules = config.getStringArray("modules");
 
 		Logger.info("Starting ModuleController");
-		final ModuleController moduleController = new ModuleController(zk);
-		moduleController.setSystemCallInterface(sysCall);
-		final ResourceManager resourceManager = new ResourceManager(env, zk);
-		resourceManager.setSystemCallInterface(sysCall);
+		final NodeManager nodeManager = new NodeManager(zk);
+		nodeManager.setSystemCallInterface(sysCall);
 
 		final Set<ModuleExecutor> moduleExecutors = new HashSet<ModuleExecutor>();
-		moduleExecutors.add(moduleController);
-		moduleExecutors.add(resourceManager);
+		moduleExecutors.add(nodeManager);
 		System.out.println("SystemCallServer: "+localNodeName+":"+config.getString("master.port"));
 		runServer(config, moduleExecutors);
 	}

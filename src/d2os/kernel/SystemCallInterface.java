@@ -76,7 +76,12 @@ public class SystemCallInterface {
 		this.moduleAddr.put("ModuleController", kernelAddr);
 		this.modulePort.put("ModuleController", kernelPort);
 	}
-
+	
+	public SystemCallFuture request(final NodeAddress nodeAddr, final SystemCallRequest sysCallReq) throws InterruptedException, IOException {
+		return new SystemCallFuture(nodeAddr, sysCallReq);
+	}
+	
+	/*
 	public SystemCallReply request(String moduleName, String method, SystemCallArguments args) throws IOException, KeeperException, InterruptedException {
 		return this.request(new SystemCallRequest(moduleName, method, args));
 	}
@@ -111,11 +116,7 @@ public class SystemCallInterface {
 		comm.connect(nodeAddr.getPort());
 		return request(comm, sysCallReq);
 	}
-
-	public SystemCallFuture request2(final NodeAddress nodeAddr, final SystemCallRequest sysCallReq) throws InterruptedException, IOException {
-		return new SystemCallFuture(nodeAddr, sysCallReq);
-	}
-
+	
 	private SystemCallReply request(NodeCommunicator comm, SystemCallRequest sysCallReq) throws IOException {
 		String json = Json.dumps(sysCallReq);
 		String base64 = Base64.encodeBase64String(StringUtils.getBytesUtf8(json));
@@ -131,4 +132,5 @@ public class SystemCallInterface {
 		comm.close();
 		return reply;
 	}
+	*/
 }
