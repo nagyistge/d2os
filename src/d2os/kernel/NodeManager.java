@@ -139,32 +139,27 @@ public final class NodeManager extends ModuleExecutor {
 			System.exit(1);
 		}
 
-		Environment env = Environment.loadFromXMLFile(config.getString("env.file"));
-		Logger.info("Environment loaded");
+		/*
 		String localNodeName = NetUtil.getLocalHostName();
 		Logger.info("Local Node Name: "+localNodeName);
 		NodeInfo localNodeInfo = env.getMasterInfo(localNodeName);
 		if(localNodeInfo==null){
 			throw new UnknownHostException("Host '"+localNodeName+"' not specified by the environment");
 		}
-
+		*/
 		Logger.info("Starting ZooKeeper client");
-		Logger.info("Updating ZooKeeper");
-
 		String []zkServers = config.getStringArray("zk.servers");
 		ZkClient zk = new ZkClient(zkServers[0]);
 		Logger.info("Creating System Call Interface");
 		SystemCallInterface sysCall = new SystemCallInterface(zkServers);
 
-		String []modules = config.getStringArray("modules");
-
-		Logger.info("Starting ModuleController");
+		Logger.info("Starting NodeManager");
 		final NodeManager nodeManager = new NodeManager(zk);
 		nodeManager.setSystemCallInterface(sysCall);
 
 		final Set<ModuleExecutor> moduleExecutors = new HashSet<ModuleExecutor>();
 		moduleExecutors.add(nodeManager);
-		System.out.println("SystemCallServer: "+localNodeName+":"+config.getString("master.port"));
+
 		runServer(config, moduleExecutors);
 	}
 }
