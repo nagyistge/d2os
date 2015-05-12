@@ -1,4 +1,4 @@
-cd $CLOUDOS_HOME
+#cd $CLOUDOS_HOME
 
 CPFILES='./src/'
 for f in ./lib/*.jar; do
@@ -7,23 +7,24 @@ done
 
 if [[ $1 == "kernel" ]]; then
 	JFILES=''
-	for f in $(find ./src/cloudos/ -name *.java); do
+	for f in $(find ./src/d2os/ -name "*.java"); do
 		JFILES=$JFILES' '$f
 	done
 	
 	mkdir ./classes
-	rm ./bin/cloudos.jar
+	rm ./bin/d2os.jar
+	#echo $JFILES
 	#javac -server -d ./classes/ -cp $CPFILES $JFILES -Xlint
 	javac -server -d ./classes/ -cp $CPFILES $JFILES
 	if [[ $? -eq 0 ]]; then
-		jar cf ./bin/cloudos.jar -C classes/ .
+		jar cf ./bin/d2os.jar -C classes/ .
 	fi
 	rm -r ./classes
 fi
 
 if [[ $1 == "dfs" ]]; then
 	JFILES=''
-	for f in $(find ./src/dfs/ -name *.java); do
+	for f in $(find ./src/dfs/ -name "*.java"); do
 		JFILES=$JFILES' '$f
 	done
 	
@@ -39,7 +40,7 @@ fi
 
 if [[ $1 == "dpm" ]]; then
 	JFILES=''
-	for f in $(find ./src/dpm/ -name *.java); do
+	for f in $(find ./src/dpm/ -name "*.java"); do
 		JFILES=$JFILES' '$f
 	done
 	
@@ -55,7 +56,7 @@ fi
 
 if [[ $1 == "watershed" ]]; then
 	JFILES=''
-	for f in $(find ./src/watershed/ -name *.java); do
+	for f in $(find ./src/watershed/ -name "*.java"); do
 		JFILES=$JFILES' '$f
 	done
 	
@@ -71,7 +72,7 @@ fi
 
 if [[ $1 == "mapred" ]]; then
 	JFILES=''
-	for f in $(find ./src/mapred/ -name *.java); do
+	for f in $(find ./src/mapred/ -name "*.java"); do
 		JFILES=$JFILES' '$f
 	done
 	
@@ -87,7 +88,7 @@ fi
 
 if [[ $1 == "samples" ]]; then
 	JFILES=''
-	for f in $(find ./src/sample/watershed/ -name *.java); do
+	for f in $(find ./src/sample/watershed/ -name "*.java"); do
 		JFILES=$JFILES' '$f
 	done
 	

@@ -1,3 +1,3 @@
-cd $CLOUDOS_HOME
+#cd $CLOUDOS_HOME
 
 find . -name "*~" -delete
